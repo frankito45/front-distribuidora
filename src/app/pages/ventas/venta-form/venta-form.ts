@@ -10,11 +10,12 @@ import { Producto as ModelProducto } from '../../../model/productos';
 import { Cliente } from '../../../core/services/cliente';
 import { AsyncPipe } from '@angular/common';
 import { CrearVentaDto } from '../../../model/dto/crear-ventas.dto';
+import { RouterLink } from '@angular/router';
 
 
 @Component({
   selector: 'app-venta-form',
-  imports: [AsyncPipe, FormsModule, ReactiveFormsModule],
+  imports: [AsyncPipe, FormsModule, ReactiveFormsModule,RouterLink],
   templateUrl: './venta-form.html',
   styleUrl: './venta-form.css',
 })
@@ -154,6 +155,7 @@ toggleComfirmarVenta(){
   const metodoPago = this.formMetodoPago.getRawValue().metodoPago;
   this.serviceVenta.confirmarVenta(ventaIdParceado,metodoPago).subscribe({
     next: ()=>{
+      this.RecargarCancelarVenta()
       this.recargarProducto()
       this.recargarProductos()
       this.cdr.detectChanges()

@@ -1,5 +1,5 @@
 import { ChangeDetectorRef, Component, inject, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import { Venta } from '../../../core/services/venta';
 import { Venta as ModelVenta } from '../../../model/venta';
 import { AsyncPipe } from '@angular/common';
@@ -12,7 +12,7 @@ import { StickyOffset } from '@angular/cdk/table';
 
 @Component({
   selector: 'app-venta-detail',
-  imports: [AsyncPipe,FormsModule],
+  imports: [AsyncPipe,FormsModule,RouterLink],
   templateUrl: './venta-detail.html',
   styleUrl: './venta-detail.css',
 })
