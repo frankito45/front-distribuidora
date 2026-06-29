@@ -1,0 +1,37 @@
+
+
+  <a
+    routerLink="/categoria"
+    class="w-full bg-black text-white py-3 px-2 rounded-lg hover:bg-gray-800 transition"
+  >
+    Volver
+  </a>
+  <form 
+[formGroup]="formModel"
+(ngSubmit)="guardar()"
+class="max-w-2xl mx-auto bg-white text-black p-8 rounded-2xl shadow-lg space-y-6 border border-gray-200">
+
+
+    
+  <h2 class="text-2xl font-bold border-b pb-3">
+    Nueva Categoria
+  </h2>
+
+    <div class="space-y-1">
+    <label class="text-sm font-medium">Nombre</label>
+    <input
+      type="text"
+      formControlName="nombre"
+      class="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-black"
+      placeholder="Nombre del producto"
+    >
+  </div>
+  
+  <!-- buton -->
+  <button
+    type="submit"
+    class="w-full bg-black text-white py-3 rounded-lg hover:bg-gray-800 transition"
+  >
+    Guardar producto
+  </button>
+</form>

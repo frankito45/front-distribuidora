@@ -1,0 +1,102 @@
+<div class="p-6">
+  
+
+  <div class="flex justify-between items-center mb-6">
+    <h1 class="text-3xl font-bold">
+      Ventas
+    </h1>
+
+    <button 
+      (click)="irCrearVenta()"
+      class="bg-black text-white px-4 py-2 rounded-lg">
+      Nueva Venta
+    </button>
+  </div>
+
+  @if (ventas$ | async; as ventas) {
+
+    <div class="bg-white rounded-xl shadow overflow-hidden">
+
+      <table class="w-full">
+
+        <thead class="bg-gray-100">
+
+          <tr>
+            <th class="p-4 text-left">Cliente</th>
+            <th class="p-4 text-left">Total</th>
+            <th class="p-4 text-left">Estado</th>
+            <th class="p-4 text-left">Pago</th>
+            <th class="p-4 text-left">Acciones</th>
+            <th class="p-4 text-left">mas</th>
+          </tr>
+
+        </thead>
+
+        <tbody>
+
+          @for (venta of ventas; track venta.id) {
+
+            <tr class="border-t">
+
+              <td class="p-4">
+                {{ venta.cliente?.nombre }}
+              </td>
+
+              <td class="p-4 font-semibold">
+                ${{ venta.total }}
+              </td>
+
+              <td class="p-4">
+
+                <span
+                  class="px-2 py-1 rounded text-sm"
+                  [class.bg-yellow-100]="venta.estado === 'PENDIENTE'"
+                  [class.bg-green-100]="venta.estado === 'PAGADA'"
+                  [class.bg-red-100]="venta.estado === 'CANCELADA'"
+                >
+                  {{ venta.estado }}
+                </span>
+
+              </td>
+
+              <td class="p-4">
+                {{ venta.metodoPago }}
+              </td>
+
+              <td class="p-4 flex gap-2">
+
+                <button
+                  class="bg-green-600 text-white px-3 py-1 rounded">
+                  Pagar
+                </button>
+
+                <button
+                  (click)="toggleCancelarVenta(venta)"
+                  class="bg-red-600 text-white px-3 py-1 rounded">
+                  Cancelar
+                </button>
+
+              </td>
+
+              <td>
+                <button
+                    class="bg-gray-800 text-white px-3 py-1 rounded"
+                     [routerLink]="['/ventas', venta.id]"
+                     >
+                    Ver detalle
+                </button>
+              </td>
+
+            </tr>
+
+          }
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+  }
+
+</div>

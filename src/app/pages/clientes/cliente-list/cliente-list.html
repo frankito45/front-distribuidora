@@ -1,0 +1,115 @@
+
+<div class="p-6">
+    <div class=" flex justify-between items-center mb-6">
+        <h1 class="text-3xl font-bold">
+        Cliente
+        </h1>
+  <a
+    routerLink="/cliente/nuevo"
+    class="bg-black text-white px-2 py-3 rounded-lg hover:bg-gray-800 transition"
+  >
+    Nuevo cliente
+  </a>
+  </div>
+
+
+    <div class="bg-white rounded-xl shadow overflow-hidden">
+        @if(clientes$ | async; as clientes$){
+            <table class="w-full">
+
+                <thead class="bg-gray-100">
+                    <tr>
+                        <th class="text-left p-4">
+                                nombre
+                        </th> 
+                        <th class="text-left p-4">
+                               Email
+                        </th> 
+                        <th class="text-left p-4">
+                               Direccion
+                        </th> 
+                        <th class="text-left p-4">
+                               Telefono
+                        </th> 
+                        <th class="text-left p-4">
+                               acciones
+                        </th> 
+
+                    </tr>
+                </thead>
+                
+                <tbody>
+                    @for (cliente of clientes$; track cliente.id) {
+                        <tr class="border-t">
+                            <td class="p-4">
+                                {{cliente.nombre}}
+                            </td>
+                            <td class="p-4">
+                                {{cliente.email}}
+                            </td>
+                            <td class="p-4">
+                                {{cliente.direccion}}
+                            </td>
+                            <td class="p-4">
+                                {{cliente.telefono}}
+                            </td>
+                            <td class="p-4">
+                                <button
+                                    (click)="toggleEliminar(cliente)"
+                                    class="bg-red-600 text-white px-3 py-1 mx-1.5 rounded">
+                                    Eliminar
+                                </button>  
+                                <button
+                                    (click)="toggleUpdate(cliente)"
+                                    class="bg-amber-400 text-white px-3 py-1 rounded">
+                                    Actualizar
+                                </button>  
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+
+    </div>
+    <!-- modal -->
+    @if(actualizarCliente){
+        <div class="fixed inset-0 bg-[#ffffff93] flex items-center justify-center">
+            <div class="bg-white rounded-lg shadow-lg p-6 w-96">
+            <h2 class="text-xl font-bold mb-4">Actualizar Cliente</h2>
+            
+            <form (ngSubmit)="guardarCambios()">
+                <label class="block mb-2">Nombre</label>
+                <input [(ngModel)]="actualizarCliente.nombre" name="nombre"
+                    class="border rounded w-full p-2 mb-4"/>
+
+                <label class="block mb-2">Email</label>
+                <input [(ngModel)]="actualizarCliente.email" name="email"
+                    class="border rounded w-full p-2 mb-4"/>
+
+                <label class="block mb-2">Dirección</label>
+                <input [(ngModel)]="actualizarCliente.direccion" name="direccion"
+                    class="border rounded w-full p-2 mb-4"/>
+
+                <label class="block mb-2">Teléfono</label>
+                <input [(ngModel)]="actualizarCliente.telefono" name="telefono"
+                    class="border rounded w-full p-2 mb-4"/>
+
+                <div class="flex justify-end space-x-2">
+                <button type="button" (click)="cancelarUpdate()"
+                        class="bg-gray-400 text-white px-3 py-1 rounded">
+                    Cancelar
+                </button>
+                <button type="submit"
+                        (click)="guardarCambios()"
+                        class="bg-green-600 text-white px-3 py-1 rounded">
+                    Guardar
+                </button>
+                </div>
+            </form>
+            </div>
+        </div>
+    }
+
+</div>
+

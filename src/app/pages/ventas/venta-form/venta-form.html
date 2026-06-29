@@ -1,0 +1,129 @@
+@if (venta$ | async; as venta) {
+  <div [formGroup]="formMetodoPago" class="bg-white shadow-lg rounded-xl p-6 w-125 space-y-4">
+    <span class="block text-gray-600">Venta ID: 
+      <span class="font-bold text-gray-800">{{venta.id}}</span>
+    </span>
+
+    <h1 class="text-xl font-semibold text-gray-700">
+      Nombre: <span class="text-black">{{venta.cliente?.nombre}}</span>
+    </h1>
+    <h1 class="text-xl font-semibold text-gray-700">
+      Estado: <span class="text-black">{{venta.estado}}</span>
+    </h1>
+
+    <label class="block text-sm font-semibold text-gray-700">Método de pago</label>
+    <select formControlName="metodoPago" class="w-full border rounded-lg p-3 focus:outline-none" >
+      <option value="EFECTIVO">Efectivo</option>
+      <option value="TRANSFERENCIA">Transferencia</option>
+      <option value="TARJETA">Tarjeta</option>
+    </select>
+
+    <table class="w-full border-collapse rounded-lg overflow-hidden shadow-sm mt-4">
+      <thead class="bg-gray-100 text-gray-700">
+        <tr>
+          <th class="p-3 text-left">Producto</th>
+          <th class="p-3 text-left">Cantidad</th>
+          <th class="p-3 text-left">Subtotal</th>           
+        </tr>
+      </thead>
+      <tbody>
+        @for (item of venta.detalles; track $index) {
+          <tr class="hover:bg-cyan-50-50 transition">
+            <td class="p-3">{{item.producto.nombre}}</td>
+            <td class="p-3">{{item.cantidad}}</td>
+            <td class="p-3">{{item.subtotal}}</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+
+    <div class="flex justify-end gap-3 mt-4">
+      <button
+      (click)="toggleCancelarVenta()" 
+      class="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition">
+        Cancelar
+      </button>
+      <button class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition">
+        Guardar
+      </button>
+    </div>
+  </div>
+}
+@else {
+  <form [formGroup]="formModle" (ngSubmit)="guardar()" 
+        class="bg-white shadow-lg rounded-xl p-6 w-100 space-y-4">
+    <h2 class="text-2xl font-bold text-gray-800">Nueva Venta</h2>
+
+    <label class="block text-sm font-semibold text-gray-700">Seleccione cliente</label>
+    <select formControlName="clienteId" 
+            class="w-full border rounded-lg p-3 focus:outline-none ">
+      @if(clientes$ | async; as clientes){
+        @for (cliente of clientes; track $index) {
+          <option [value]="cliente.id">{{cliente.nombre}} (ID: {{cliente.id}})</option>
+        }
+      }
+    </select>
+
+    <button type="submit"
+            class="w-full bg-green-600 text-white py-2 rounded-lg hover:bg-green-700 transition">
+      Crear Venta
+    </button>
+  </form>
+}
+
+<div class="flex">
+  <div class="mt-8 bg-white shadow-lg rounded-xl p-6 w-full">
+    <h1 class="text-xl font-bold text-gray-800 mb-4">Agregar productos</h1>
+    
+    <input type="text"
+           placeholder="Buscar productos"
+           [(ngModel)]="productobuscar"
+           (input)="buscarProducto()"
+           class="w-full border rounded-lg p-3 mb-4 focus:outline-none "/>
+
+    @if (productos$ | async; as productos ) {
+      <table class="w-full border-collapse rounded-lg overflow-hidden shadow-sm">
+        <thead class="bg-gray-100 text-gray-700">
+          <tr>
+            <th class="p-3 text-left">Nombre</th>
+            <th class="p-3 text-left">Stock</th>
+            <th class="p-3 text-left">Descripción</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (producto of productos; track $index) {
+            <tr (click)="toggleProducto(producto)" 
+                class="cursor-pointer hover:bg-teal-50 transition">
+              <td class="p-3">{{producto.nombre}}</td>
+              <td class="p-3">{{producto.stock}}</td>
+              <td class="p-3">{{producto.descripcion}}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    }
+  </div>
+</div>
+
+
+ 
+@if (producto) {
+  <div class="mt-6 bg-white shadow-lg rounded-xl p-6 w-125 space-y-4">
+    <h2 class="text-lg font-bold text-gray-800">{{producto.nombre}}</h2>
+    
+    <input type="number" 
+            placeholder="Cantidad"
+            [(ngModel)] = "cantidad"
+            class="w-full border rounded-lg p-3 focus:outline-none"/>
+
+    <button (click)="agregarProducto()"
+            class="w-full bg-gray-900 text-white py-2 rounded-lg hover:bg-gray-950 transition">
+      Agregar al Carrito
+    </button>
+    <button
+    (click)="toggleCancelarAgregar()" 
+    class="w-full bg-gray-400 text-white py-2 rounded-lg hover:bg-gray-500 transition">
+      Cancelar
+    </button>
+  </div>
+}

@@ -1,0 +1,119 @@
+<div class="p-6">
+    <div class=" flex justify-between items-center mb-6">
+        <h1 class="text-3xl font-bold">
+        Categoria
+        </h1>
+        <button
+          type="button"
+          routerLink="/categoria/nuevo"
+          class="bg-black text-white px-4 py-2 rounded-lg hover:bg-gray-800">
+
+          Nueva Categoria
+
+        </button>
+  </div>
+
+
+    <div class="bg-white rounded-xl shadow overflow-hidden">
+        @if(categorias$ | async; as categorias){
+            <table class="w-full">
+
+                <thead class="bg-gray-100">
+                    <tr>
+                        <th class="text-left p-4">
+                                nombre
+                        </th> 
+                        <th class="text-left p-4">
+                                C.Articulos
+                        </th> 
+                        <th class="text-left p-4">
+                                
+                        </th> 
+                        <th class="text-left p-4">
+                              Acciones  
+                        </th> 
+                    </tr>
+                </thead>
+                
+                <tbody>
+                    @for (categoria of categorias; track categoria.id) {
+
+                    <tr class="border-t">
+
+                        <td class="p-4">
+                        {{ categoria.nombre }}
+                        </td>
+
+                        <td class="p-4">
+                        {{ categoria.productos.length }}
+                        </td>
+
+                        <td class="p-4">
+
+                            <button
+                                (click)="toggleArticulos(categoria.id)"
+                                class="text-blue-600">
+
+                                Ver artículos
+
+                            </button>
+
+                        </td>
+                        <td>
+                            <button
+                                (click)="toggleEliminar(categoria)"
+                                class="bg-red-600 text-white px-3 py-1 rounded">
+                                Eliminar
+                            </button>
+                        </td>
+
+                    </tr>
+
+                    @if (categoriaAbierta === categoria.id) {
+
+                        <tr>
+
+                        <td colspan="3" class="bg-gray-50 p-4">
+
+                            @if (categoria.productos.length > 0) {
+
+                            <ul class="space-y-2">
+
+                                @for (producto of categoria.productos; track producto.id) {
+
+                                <li
+                                    class="bg-white border rounded-lg p-3">
+
+                                    {{ producto.nombre }}
+
+                                </li>
+
+                                }
+
+                            </ul>
+
+                            } @else {
+
+                            <p class="text-gray-500">
+
+                                No hay productos en esta categoría.
+
+                            </p>
+
+                            }
+
+                        </td>
+
+                        </tr>
+
+                    }
+
+                    }
+                </tbody>
+            </table>
+        }
+
+    </div>
+
+</div>
+
