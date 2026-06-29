@@ -80,7 +80,7 @@ export class VentaDetail{
     })
  }
 
- toggleCancelarEstado(metodoPago:string){
+ toggleCancelarEstado(metodoPago:string){  
   this.ventaService.cancelarVenta(this.id,metodoPago).subscribe({
     next: ()=>{
       this.recargarVenta()
@@ -89,7 +89,7 @@ export class VentaDetail{
   })
  }
  
- toggleConfirmarVenta(metodoPago:string){
+ toggleConfirmarVenta(metodoPago:string){  
   this.ventaService.confirmarVenta(this.id,metodoPago).subscribe({
     next: ()=>{
       this.recargarVenta()

@@ -149,4 +149,17 @@ toggleCancelarVenta(){
   })
 }
 
+toggleComfirmarVenta(){
+  const ventaIdParceado = Number(this.ventaId)
+  const metodoPago = this.formMetodoPago.getRawValue().metodoPago;
+  this.serviceVenta.confirmarVenta(ventaIdParceado,metodoPago).subscribe({
+    next: ()=>{
+      this.recargarProducto()
+      this.recargarProductos()
+      this.cdr.detectChanges()
+    }
+  })
+}
+
+
 }

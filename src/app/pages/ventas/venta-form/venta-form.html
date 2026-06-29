@@ -1,3 +1,10 @@
+  <a
+    routerLink="/venta"
+    class="w-full bg-black text-white py-3 px-2 rounded-lg hover:bg-gray-800 transition"
+  >
+    Volver
+  </a>
+
 @if (venta$ | async; as venta) {
   <div [formGroup]="formMetodoPago" class="bg-white shadow-lg rounded-xl p-6 w-125 space-y-4">
     <span class="block text-gray-600">Venta ID: 
@@ -43,7 +50,9 @@
       class="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition">
         Cancelar
       </button>
-      <button class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition">
+      <button 
+      (click)="toggleComfirmarVenta()"
+      class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition">
         Guardar
       </button>
     </div>
