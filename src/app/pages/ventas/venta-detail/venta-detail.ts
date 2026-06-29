@@ -7,6 +7,7 @@ import { Observable } from 'rxjs';
 import { Producto } from '../../../core/services/producto';
 import { FormsModule } from '@angular/forms';
 import { Producto as ModelProducto } from '../../../model/productos';
+import { StickyOffset } from '@angular/cdk/table';
 
 
 @Component({
@@ -78,7 +79,27 @@ export class VentaDetail{
       }
     })
  }
+
+ toggleCancelarEstado(metodoPago:string){
+  this.ventaService.cancelarVenta(this.id,metodoPago).subscribe({
+    next: ()=>{
+      this.recargarVenta()
+      this.cdr.detectChanges()
+    }
+  })
+ }
  
+ toggleConfirmarVenta(metodoPago:string){
+  this.ventaService.confirmarVenta(this.id,metodoPago).subscribe({
+    next: ()=>{
+      this.recargarVenta()
+      this.cdr.detectChanges()
+    }
+  })
+ }
+ 
+
+
 
  
 
