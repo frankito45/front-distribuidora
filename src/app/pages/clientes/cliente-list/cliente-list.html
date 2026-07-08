@@ -1,21 +1,141 @@
 
 <div class="p-6">
-    <div class=" flex justify-between items-center mb-6">
-        <h1 class="text-3xl font-bold">
-        Cliente
-        </h1>
-  <a
-    routerLink="/cliente/nuevo"
-    class="bg-black text-white px-2 py-3 rounded-lg hover:bg-gray-800 transition"
-  >
-    Nuevo cliente
-  </a>
+
+<div class="bg-white rounded-xl shadow-lg overflow-hidden w-1/3 mb-5 h-100">
+
+  <div class="flex justify-between items-center p-6 m-3 ">
+    <h1 class="text-2xl font-bold text-gray-800">
+      Barrios
+    </h1>
+
+    <button
+      (click)="abrirFormBarrio()"
+      class="bg-black text-white px-4 py-2 rounded-lg hover:bg-gray-800 transition">
+      Nuevo Barrio
+    </button>
+
   </div>
+    <div class="h-75 overflow-y-auto px-3">
+  
+        @if (barrios$ | async; as barrios) { 
+        <table class="w-full border-collapse rounded-lg overflow-hidden shadow-sm">
+
+            <thead class="bg-gray-100 text-gray-700">
+            <tr class>
+                <th class="text-left p-4">Nombre</th>
+                <th class="text-center p-4 w-56">Acciones</th> 
+            </tr>
+            </thead>
+
+            <tbody>
+                @for (item of barrios; track $index) {
+
+                <tr class="border-t hover:bg-cyan-50 transition">
+
+                    <td class="p-4 font-medium">
+                    {{item.nombre}}
+                    </td>
+
+                    <td class="p-4">
+                    <div class="flex justify-center gap-2">
+
+                        <button
+                        (click)="toggleDeleteBarrio(item.id)"
+                        class="bg-red-600 text-white px-3 py-2 rounded-lg hover:bg-red-700 transition">
+                        Eliminar
+                        </button>
+
+                    </div>
+                    </td>
+
+                </tr>
+            }
+            </tbody>
+
+        </table>
+        }
+    </div>
+</div>
+
+<app-modal
+  [mostrar]="barrioFormulario"
+  (cerrarModal)="cerrarFormBarrio()">
+
+  <form
+    [formGroup]="formModelBarrio"
+    (ngSubmit)="guardarBarrio()"
+    class="space-y-6">
+
+    <h2 class="text-2xl font-bold text-gray-800 border-b pb-3">
+      Nuevo Barrio
+    </h2>
+
+    <div class="space-y-2">
+
+      <label class="block text-sm font-semibold text-gray-700">
+        Nombre
+      </label>
+
+      <input
+        type="text"
+        formControlName="nombre"
+        placeholder="Ingrese el nombre del barrio"
+        class="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-black">
+
+    </div>
+
+    <div class="flex justify-end gap-3">
+
+      <button
+        type="button"
+        (click)="cerrarFormBarrio()"
+        class="px-4 py-2 rounded-lg border border-gray-300 hover:bg-gray-100 transition">
+        Cancelar
+      </button>
+
+      <button
+        type="submit"
+        class="bg-black text-white px-5 py-2 rounded-lg hover:bg-gray-800 transition">
+        Crear
+      </button>
+
+    </div>
+
+  </form>
+
+</app-modal>
 
 
-    <div class="bg-white rounded-xl shadow overflow-hidden">
-        @if(clientes$ | async; as clientes$){
-            <table class="w-full">
+<div class="bg-white rounded-xl shadow-lg overflow h-174">
+
+
+    <div class="flex items-center justify-between p-6 ">
+
+        <div>
+
+            <h2 class="text-2xl font-bold text-gray-800">
+                Clientes
+            </h2>
+
+            <p class="text-sm text-gray-500">
+                Administración de clientes
+            </p>
+
+        </div>
+
+        <a
+            routerLink="/cliente/nuevo"
+            class="bg-black hover:bg-gray-800 text-white px-4 py-2 rounded-lg transition">
+
+            + Nuevo Cliente
+
+        </a>
+
+    </div>
+
+    <div class=" rounded-xl shadow overflow-hidden m-3">
+        @if(clientes$ | async; as clientes$){ 
+            <table class="w-full border-collapse rounded-lg overflow-hidden shadow-sm">
 
                 <thead class="bg-gray-100">
                     <tr>
@@ -29,18 +149,22 @@
                                Direccion
                         </th> 
                         <th class="text-left p-4">
+                               Barrio
+                        </th> 
+                        <th class="text-left p-4">
                                Telefono
                         </th> 
                         <th class="text-left p-4">
                                acciones
                         </th> 
 
+
                     </tr>
                 </thead>
                 
-                <tbody>
+                <tbody >
                     @for (cliente of clientes$; track cliente.id) {
-                        <tr class="border-t">
+                        <tr class="border-t hover:bg-cyan-50 transition">
                             <td class="p-4">
                                 {{cliente.nombre}}
                             </td>
@@ -49,6 +173,9 @@
                             </td>
                             <td class="p-4">
                                 {{cliente.direccion}}
+                            </td>
+                            <td class="p-4">
+                                {{cliente.barrio?.nombre}}
                             </td>
                             <td class="p-4">
                                 {{cliente.telefono}}
@@ -65,6 +192,7 @@
                                     Actualizar
                                 </button>  
                             </td>
+
                         </tr>
                     }
                 </tbody>
@@ -72,6 +200,7 @@
         }
 
     </div>
+</div>
     <!-- modal -->
     @if(actualizarCliente){
         <div class="fixed inset-0 bg-[#ffffff93] flex items-center justify-center">
@@ -87,6 +216,15 @@
                 <input [(ngModel)]="actualizarCliente.email" name="email"
                     class="border rounded w-full p-2 mb-4"/>
 
+                <label class="block mb-2">Barrio</label>
+                @if (barrios$ | async; as barrios) {
+                    <select [(ngModel)]="actualizarCliente.barrioId" name="barrioId" class="w-full">
+                        @for (barrio of barrios; track $index) {
+                            <option [ngValue]="barrio.id">{{barrio.nombre}} {{barrio.id}}</option>
+                        }
+                    </select>
+                }
+                
                 <label class="block mb-2">Dirección</label>
                 <input [(ngModel)]="actualizarCliente.direccion" name="direccion"
                     class="border rounded w-full p-2 mb-4"/>

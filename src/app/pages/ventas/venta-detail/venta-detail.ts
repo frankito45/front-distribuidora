@@ -1,109 +1,137 @@
-import { ChangeDetectorRef, Component, inject, OnInit } from '@angular/core';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import { ChangeDetectorRef, Component, inject, Input, OnInit } from '@angular/core';
+
 import { Venta } from '../../../core/services/venta';
 import { Venta as ModelVenta } from '../../../model/venta';
-import { AsyncPipe } from '@angular/common';
-import { Observable } from 'rxjs';
-import { Producto } from '../../../core/services/producto';
-import { FormsModule } from '@angular/forms';
-import { Producto as ModelProducto } from '../../../model/productos';
-import { StickyOffset } from '@angular/cdk/table';
-
+import { Spiner } from "../../../shared/spiner/spiner";
+import { FormularioPagoComponet } from "../../../components/formulario-pago.componet/formulario-pago.componet";
+import { TicketService } from '../../../core/services/imprimir-ticket';
+import { AgregarProductos } from "../../../components/agregar-productos/agregar-productos";
+import { ActivatedRoute } from '@angular/router';
+import { CurrencyPipe } from '@angular/common';
+import { Modal } from '../../../components/modal/modal';
+import { FormControl, FormGroup, ɵInternalFormsSharedModule, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-venta-detail',
-  imports: [AsyncPipe,FormsModule,RouterLink],
+  standalone:true,
+  imports: [Spiner, FormularioPagoComponet, AgregarProductos, CurrencyPipe, Modal, ɵInternalFormsSharedModule, ReactiveFormsModule],
   templateUrl: './venta-detail.html',
   styleUrl: './venta-detail.css',
 })
-export class VentaDetail{
+export class VentaDetail implements OnInit {
   private ventaService = inject(Venta)
-  private productoService = inject(Producto)
-  private route = inject(ActivatedRoute);
+  private tiketService = inject(TicketService)
   private cdr = inject(ChangeDetectorRef);
+  private route = inject(ActivatedRoute);
 
-  id = Number(this.route.snapshot.paramMap.get('id'))
-  venta$:Observable<ModelVenta> = this.ventaService.getById(this.id);
-
-  productos$: Observable<ModelProducto[]> =
-  this.productoService.buscar('');
-  busqueda = ''
- productoSeleccionado:  ModelProducto | null = null;
-
-  cantidad = 1;
+  @Input({ required: true })
+  ventaId!: number;
+  venta:ModelVenta | null = null
+  loadig = false
+  loadinVenta = false
   
-  buscarProducto() {
-    console.log('BUSQUEDA:',this.busqueda)
-    this.productos$ =
-      this.productoService.buscar(this.busqueda);
+  ngOnInit() {
+   if (this.ventaId) {
+    this.cargarVenta();
+    return;
   }
 
-  seleccionarProducto(producto: ModelProducto) {
-    this.productoSeleccionado = producto;
+  const id = this.route.snapshot.paramMap.get('id');
+
+  if (id) {
+    this.ventaId = Number(id);
+    this.cargarVenta();
   }
 
-  
- agregarProducto(){
-  if(!this.productoSeleccionado){
-    return
   }
-  console.log(this.id,this.productoSeleccionado.id,this.cantidad)
-  this.ventaService.agregarProductos(
-    this.id,
-      {
-        producto: this.productoSeleccionado.id,
-        cantidad: this.cantidad
-      }
-    
-  ).subscribe({
-    next:() => {
-      this.recargarVenta();
 
-      this.busqueda = ''
-      this.productoSeleccionado = null
-      this.cantidad = 1
-      this.cdr.detectChanges()
-    }
-  })
- }
-
- recargarVenta(){
-  this.venta$ = this.ventaService.getById(this.id)
- }
-
- toggleCancelarVenta(ventaId:number,productoId:number){
-    this.ventaService.desagregarProducto(ventaId,productoId).subscribe({
-      next:()=>{
-        this.recargarVenta()
+  cargarVenta(){
+    this.loadig = true
+      console.log("recargando");
+    this.ventaService.getById(this.ventaId).subscribe({
+      next: (res) => {
+        this.venta = res 
+        console.log(res);
+        console.log("recargando 2");
+      },
+      complete: () => {
+        console.log('recarga recivida')
         this.cdr.detectChanges()
       }
     })
- }
+   
 
- toggleCancelarEstado(metodoPago:string){  
-  this.ventaService.cancelarVenta(this.id,metodoPago).subscribe({
-    next: ()=>{
-      this.recargarVenta()
-      this.cdr.detectChanges()
-    }
-  })
- }
- 
- toggleConfirmarVenta(metodoPago:string){  
-  this.ventaService.confirmarVenta(this.id,metodoPago).subscribe({
-    next: ()=>{
-      this.recargarVenta()
-      this.cdr.detectChanges()
-    }
-  })
- }
- 
+  }
 
+  agregarProducto(producto:any) {
+  this.ventaService.agregarProductos(this.ventaId,producto)
+  this.cargarVenta();
+  }
 
-
- 
-
+  mostrarModalPago = false
   
+  cancelar(){
+    this.ventaService.cancelarVenta(this.ventaId).subscribe({
+      next:() => this.cargarVenta(),
+    })
+    this.loadig = false
+    
+  }
+
+  pagar() {
+    this.mostrarModalPago = true
+  }
+  
+  onPagoRealizado() {
+    this.mostrarModalPago = false;
+    this.cargarVenta();
+  }
+
+  cerrarModal(){
+    this.mostrarModalPago = false
+  }
+
+
+  imprimirTiket(){
+    if (this.venta) {
+      this.tiketService.imprimir(this.venta)
+    }
+    
+  }  
+
+  abrirModalOferta:boolean = false
+  formModelOfertas = new FormGroup({
+    oferta: new FormControl<number>(0,{
+      nonNullable:true
+    })
+  })
+
+  toggleCerrarOferta(){
+    this.abrirModalOferta= false
+  }
+  toggleAbrirOferta(){
+    this.abrirModalOferta= true
+  }
+  
+  agregarOferta(id:number){
+    if (this.formModelOfertas.invalid) {
+      this.formModelOfertas.markAsTouched()
+    }
+
+    const oferta = this.formModelOfertas.getRawValue()
+
+    this.ventaService.crearOferta(id,oferta).subscribe({
+        next:(res) => console.log('resultados',res),
+        complete:() => {
+
+          this.toggleCerrarOferta()
+          this.cargarVenta()  
+          this.cdr.detectChanges()
+        }
+    })
+  }
+
+
 
 }
 

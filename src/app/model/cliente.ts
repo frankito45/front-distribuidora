@@ -1,3 +1,4 @@
+import { Barrio } from './barrio';
 import { Venta } from './venta';
 
 export interface Cliente {
@@ -10,8 +11,12 @@ export interface Cliente {
   email?: string;
 
   direccion?: string;
-
+  
+  barrioId?: number;
+  
   createdAt: string;
 
+  barrio?: Barrio ;
+  
   ventas?: Venta[];
 }

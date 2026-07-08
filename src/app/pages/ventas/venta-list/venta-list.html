@@ -15,19 +15,18 @@
 
   @if (ventas$ | async; as ventas) {
 
-    <div class="bg-white rounded-xl shadow overflow-hidden">
+    <div class="bg-white rounded-xl shadow overflow-hidden p-3 h-170">
+ 
+      <table class="w-full border-collapse rounded-lg overflow-hidden shadow-sm ">
 
-      <table class="w-full">
-
-        <thead class="bg-gray-100">
+        <thead class="bg-gray-100 text-gray-700">
 
           <tr>
             <th class="p-4 text-left">Cliente</th>
             <th class="p-4 text-left">Total</th>
             <th class="p-4 text-left">Estado</th>
-            <th class="p-4 text-left">Pago</th>
-            <th class="p-4 text-left">Acciones</th>
-            <th class="p-4 text-left">mas</th>
+            <th class="p-4 text-left">cliente</th>
+            <th class="p-4 text-left">Barrio</th>
           </tr>
 
         </thead>
@@ -36,7 +35,7 @@
 
           @for (venta of ventas; track venta.id) {
 
-            <tr class="border-t">
+            <tr class="border-t hover:bg-cyan-50 transition" (click)="abrirDetalles(venta.id)">
 
               <td class="p-4">
                 {{ venta.cliente?.nombre }}
@@ -59,32 +58,12 @@
 
               </td>
 
-              <td class="p-4">
-                {{ venta.metodoPago }}
+              <td class="p-4 ">
+                {{venta.cliente?.nombre}}
               </td>
 
-              <td class="p-4 flex gap-2">
-
-                <button
-                  class="bg-green-600 text-white px-3 py-1 rounded">
-                  Pagar
-                </button>
-
-                <button
-                  (click)="toggleCancelarVenta(venta)"
-                  class="bg-red-600 text-white px-3 py-1 rounded">
-                  Cancelar
-                </button>
-
-              </td>
-
-              <td>
-                <button
-                    class="bg-gray-800 text-white px-3 py-1 rounded"
-                     [routerLink]="['/ventas', venta.id]"
-                     >
-                    Ver detalle
-                </button>
+              <td class="p-4 ">
+                {{venta.cliente?.barrio}}
               </td>
 
             </tr>

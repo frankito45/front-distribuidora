@@ -1,0 +1,104 @@
+<div class="space-y-6 justify-items-center">
+
+  @if (producto) {
+
+    <div class="bg-white shadow-lg rounded-xl p-6 max-w-xl min-w-xs  content-center">
+
+      @if (loading) {
+
+        <div class="flex justify-center py-10">
+          <app-spiner />
+        </div>
+
+      } @else {
+      
+
+    
+        <h2 class="text-lg font-bold mb-4">
+        {{ producto.nombre }}
+        </h2>
+
+        <input
+        type="number"
+        min="1"
+        [(ngModel)]="cantidad"
+        class="w-full border rounded-lg p-3 mb-4"
+        placeholder="Cantidad"
+        >
+
+        <button
+        class="w-full bg-gray-900 text-white py-2 rounded-lg mb-2"
+        (click)="agregarProducto()">
+        Agregar al carrito
+        </button>
+
+        <button
+        class="w-full bg-gray-400 text-white py-2 rounded-lg"
+        (click)="cancelarSeleccion()">
+        Cancelar
+        </button>
+
+    
+
+      }
+
+    </div>
+
+  }
+
+  <div class="bg-white shadow-lg rounded-xl p-6 w-full">
+
+    <h2 class="text-xl font-bold mb-4">
+      Agregar productos
+    </h2>
+
+    <input
+      [(ngModel)]="productoBuscar"
+      (input)="buscarProducto()"
+      class="w-full border rounded-lg p-3 mb-4"
+      placeholder="Buscar producto"
+    >
+
+    <div class="max-h-72 overflow-y-auto">
+
+      @if (productos$ | async; as productos) {
+
+        <table class="w-full">
+
+          <thead>
+            <tr>
+              <th class="text-left p-2">Nombre</th>
+              <th class="text-left p-2">Stock</th>
+              <th class="text-left p-2">Descripción</th>
+              <th class="text-left p-2">Precio de Venta</th>
+            </tr>
+          </thead>
+
+          <tbody>
+
+            @for (producto of productos; track producto.id) {
+
+              <tr
+                class="cursor-pointer hover:bg-gray-100"
+                (click)="seleccionarProductos(producto)">
+
+                <td class="p-2">{{ producto.nombre }}</td>
+                <td class="p-2">{{ producto.stock }}</td>
+                <td class="p-2">{{ producto.descripcion }}</td>
+                <td class="p-2 font-bold">{{ producto.precioVenta | currency:'ARS' }}</td>
+ 
+              </tr>
+
+            }
+
+          </tbody>
+
+        </table>
+
+      }
+
+    </div>
+
+  </div>
+
+</div>

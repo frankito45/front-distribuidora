@@ -32,4 +32,8 @@ export class Cliente {
     return this.http.delete(`${this.api}/${id}`)
   }
 
+  getFilterBarrio(barrio:{}){
+    return this.http.get<ModelCliente[]>(`${this.api}/clientes/filtrar`,barrio)
+  }
+
 }

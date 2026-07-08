@@ -19,6 +19,9 @@ export class ClienteForm {
     telefono: new FormControl('',{
       nonNullable:true
     }),
+    barrio: new FormControl('',{
+      nonNullable:true
+    }),
     direccion: new FormControl('',{
       nonNullable:true
     }),
@@ -40,5 +43,7 @@ export class ClienteForm {
     
     console.log(cliente)
   }
+
+  
 
 }

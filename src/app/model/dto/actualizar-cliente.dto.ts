@@ -3,4 +3,5 @@ export interface ActualizarClienteDto {
   telefono?: string;
   direccion?: string;
   email?: string
+  barrioId?:number
 }

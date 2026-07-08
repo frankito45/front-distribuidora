@@ -13,7 +13,8 @@ import { AgregarProductoVentaDto } from '../../model/dto/agregar-producto-venta.
 export class Venta {
 
   private http = inject(HttpClient);
-  private api = 'https://distribuidorabackapiproto-production.up.railway.app/venta';
+  // private api = 'https://distribuidorabackapiproto-production.up.railway.app/venta';
+  private api = 'http://localhost:3000/venta';
 
 getAll(params = { skip: 0, take: 10 }) {
   return this.http.get<ModelVenta[]>(`${this.api}?skip=${params.skip}&take=${params.take}`);
@@ -45,22 +46,12 @@ getCount(){
     );
   }
 
-  confirmarVenta(id: number,metodoPago:string) {
-    return this.http.patch(
-      `${this.api}/${id}/estado`,
-      {
-        estado: 'PAGADA',
-        metodoPago: metodoPago
-      }
-    );
-  }
 
-  cancelarVenta(id: number,metodoPago:string) {
+  cancelarVenta(id: number) {
     return this.http.patch(
       `${this.api}/${id}/estado`,
       {
         estado: 'CANCELADA',
-        metodoPago: metodoPago
       }
     );
   }
@@ -83,4 +74,11 @@ getCount(){
     return this.http.delete(`${this.api}/venta/${ventaId}/producto/${productoId}`)
   }
 
+  crearOferta(ventaId:number, oferta: any){
+    return this.http.patch(`${this.api}/descuento/${ventaId}`,oferta)
+  }
+
+  getInforme(fecha:string){
+    return this.http.get(`${this.api}/resument/venta/${fecha}`)
+  }
 }

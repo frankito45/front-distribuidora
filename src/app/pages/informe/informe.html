@@ -1,0 +1,306 @@
+<div class="p-6 space-y-6">
+
+    <!-- Encabezado -->
+    <div class="flex justify-between items-center">
+
+        <div>
+            <h1 class="text-3xl font-bold text-gray-800">
+                Informe del Día
+            </h1>
+
+            <p class="text-gray-500">
+                Consulta y cierre de caja
+            </p>
+        </div>
+
+    </div>
+
+    <!-- Buscar -->
+    <div class="bg-white rounded-xl shadow p-5">
+
+        <div class="flex items-end gap-4">
+
+            <div>
+                <label class="block text-sm font-medium mb-2">
+                    Fecha
+                </label>
+
+                <input
+                    type="date"
+                    [(ngModel)]="fecha"
+                    class="border rounded-lg px-4 py-2">
+            </div>
+
+            <button
+                (click)="buscarInforme()"
+                class="bg-black text-white px-5 py-2 rounded-lg hover:bg-gray-800">
+
+                Buscar
+
+            </button>
+
+            <button
+                (click)="hoy()"
+                class="bg-gray-200 px-5 py-2 rounded-lg hover:bg-gray-300">
+
+                Hoy
+
+            </button>
+
+        </div>
+
+    </div>
+
+    @if(informe){
+
+    <!-- Resumen -->
+
+    <div class="grid grid-cols-4 gap-5">
+
+        <div class="bg-white rounded-xl shadow p-5">
+
+            <p class="text-gray-500">
+                Total vendido
+            </p>
+
+            <h2 class="text-3xl font-bold mt-2">
+                {{ informe.totalVentas | currency:'ARS' }}
+            </h2>
+
+        </div>
+
+        <div class="bg-white rounded-xl shadow p-5">
+
+            <p class="text-gray-500">
+                Ganancia
+            </p>
+
+            <h2 class="text-3xl font-bold text-green-600 mt-2">
+                {{ informe.ganancia | currency:'ARS' }}
+            </h2>
+
+        </div>
+
+        <div class="bg-white rounded-xl shadow p-5">
+
+            <p class="text-gray-500">
+                Costo
+            </p>
+
+            <h2 class="text-3xl font-bold text-red-500 mt-2">
+                {{ informe.costo | currency:'ARS' }}
+            </h2>
+
+        </div>
+
+        <div class="bg-white rounded-xl shadow p-5">
+
+            <p class="text-gray-500">
+                Ventas realizadas
+            </p>
+
+            <h2 class="text-3xl font-bold mt-2">
+                {{ informe.cantidadVentas }}
+            </h2>
+
+        </div>
+
+    </div>
+
+
+    <!-- Métodos de pago -->
+
+    <div class="bg-white rounded-xl shadow">
+
+        <div class="border-b p-5">
+
+            <h2 class="text-xl font-semibold">
+
+                Métodos de Pago
+
+            </h2>
+
+        </div>
+
+        <div class="grid grid-cols-3 gap-5 p-5">
+
+            <div class="border rounded-lg p-5">
+
+                <p class="text-gray-500">
+                    Efectivo
+                </p>
+
+                <h2 class="text-2xl font-bold">
+                    {{ informe.efectivo | currency:'ARS' }}
+                </h2>
+
+            </div>
+
+            <div class="border rounded-lg p-5">
+
+                <p class="text-gray-500">
+                    Transferencia
+                </p>
+
+                <h2 class="text-2xl font-bold">
+                    {{ informe.transferencia | currency:'ARS' }}
+                </h2>
+
+            </div>
+
+            <div class="border rounded-lg p-5">
+
+                <p class="text-gray-500">
+                    Cuenta Corriente
+                </p>
+
+                <h2 class="text-2xl font-bold">
+                    {{ informe.cuentaCorriente | currency:'ARS' }}
+                </h2>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- Caja -->
+
+    <div class="bg-white rounded-xl shadow p-6">
+
+        <h2 class="text-xl font-semibold mb-5">
+
+            Cierre de Caja
+
+        </h2>
+
+        <div class="grid grid-cols-2 gap-6">
+
+            <div>
+
+                <label class="block mb-2">
+
+                    Efectivo contado
+
+                </label>
+
+                <input
+                    type="number"
+                    [(ngModel)]="dineroCaja"
+                    class="border rounded-lg w-full p-3">
+
+            </div>
+
+            <div>
+
+                <label class="block mb-2">
+
+                    Efectivo esperado
+
+                </label>
+
+                <input
+                    disabled
+                    [value]="informe.efectivo"
+                    class="border rounded-lg w-full p-3 bg-gray-100">
+
+            </div>
+
+        </div>
+
+        <div class="mt-6">
+
+            <p class="text-lg">
+
+                Diferencia:
+
+                <span
+                    [class.text-red-600]="diferenciaCaja < 0"
+                    [class.text-green-600]="diferenciaCaja >= 0">
+
+                    {{ diferenciaCaja | currency:'ARS' }}
+
+                </span>
+
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <!-- Tabla -->
+
+    <div class="bg-white rounded-xl shadow overflow-hidden">
+
+        <div class="border-b p-5">
+
+            <h2 class="text-xl font-semibold">
+
+                Ventas del día
+
+            </h2>
+
+        </div>
+
+        <table class="w-full">
+
+            <thead class="bg-gray-100">
+
+                <tr>
+
+                    <th class="text-left p-4">Venta</th>
+
+                    <th class="text-left p-4">Cliente</th>
+
+                    <th class="text-left p-4">Estado</th>
+
+                    <th class="text-left p-4">Total</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+                @for(venta of informe.ventas; track venta.id){
+
+                <tr class="border-t hover:bg-gray-50">
+
+                    <td class="p-4">
+
+                        #{{ venta.id }}
+
+                    </td>
+
+                    <td class="p-4">
+
+                        {{ venta.cliente?.nombre }}
+
+                    </td>
+
+                    <td class="p-4">
+
+                        {{ venta.estado }}
+
+                    </td>
+
+                    <td class="p-4 font-semibold">
+
+                        {{ venta.total | currency:'ARS' }}
+
+                    </td>
+
+                </tr>
+
+                }
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+    }
+</div>

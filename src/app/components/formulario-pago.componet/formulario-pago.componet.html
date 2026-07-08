@@ -1,0 +1,122 @@
+<div class="bg-white rounded-xl shadow-lg p-6 w-full max-w-lg">
+  <div class="flex justify-between">
+    <h2 class="text-2xl font-bold text-gray-800 mb-4">
+      Registrar pago
+    </h2>
+    <button class="bg-black text-white my-2 px-3 rounded-lg hover:bg-gray-800 transition" (click)="cerrar()" >x</button>
+  </div>
+
+  <div class="flex justify-between items-center mb-4">
+    <span class="text-gray-600 font-medium">
+      Total venta
+    </span>
+
+    <span class="text-2xl font-bold text-green-600">
+      {{ total | currency:'ARS' }}
+    </span>
+  </div>
+
+  <hr class="mb-5">
+
+  @for (pago of pagos; track $index) {
+
+    <div class="flex gap-3 items-center mb-4">
+
+      <select
+        [(ngModel)]="pago.metodo"
+        class="flex-1 border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-500">
+
+        <option value="EFECTIVO">
+          Efectivo
+        </option>
+
+        <option value="TRANSFERENCIA">
+          Transferencia
+        </option>
+
+        <option value="CUENTA_CORRIENTE">
+          Cuenta corriente
+        </option>
+
+      </select>
+
+      <input
+        type="number"
+        min="0"
+        [(ngModel)]="pago.monto"
+        class="w-36 border rounded-lg px-3 py-2 text-right focus:outline-none focus:ring-2 focus:ring-green-500">
+
+      @if (pagos.length > 1) {
+
+        <button
+          type="button"
+          (click)="eliminarPago($index)"
+          class="bg-red-500 hover:bg-red-600 text-white px-3 py-2 rounded-lg transition">
+
+          ✕
+        </button>
+
+      }
+
+    </div>
+
+  }
+
+  <button
+    type="button"
+    (click)="agregarPago()"
+    class="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-lg font-medium transition">
+
+    + Agregar método de pago
+
+  </button>
+
+  <hr class="my-5">
+
+  <div class="space-y-2">
+
+    <div class="flex justify-between">
+      <span class="font-medium">
+        Total pagado
+      </span>
+
+      <span class="font-bold text-green-600">
+        {{ totalPagado | currency:'ARS' }}
+      </span>
+    </div>
+
+    <div class="flex justify-between">
+
+      <span class="font-medium">
+        Saldo restante
+      </span>
+
+      <span
+        class="font-bold"
+        [class.text-red-600]="saldo > 0"
+        [class.text-green-600]="saldo === 0">
+
+        {{ saldo | currency:'ARS' }}
+
+      </span>
+
+    </div>
+
+  </div>
+  @if(load){
+    <app-spiner></app-spiner>
+  }
+  @else {
+
+    <button
+    type="button"
+    (click)="confirmarPago()"
+    [disabled]="saldo !== 0"
+    class="w-full mt-6 bg-green-600 hover:bg-green-700 disabled:bg-gray-400 disabled:cursor-not-allowed text-white py-3 rounded-lg text-lg font-semibold transition">
+
+      Confirmar pago
+
+    </button>
+}
+
+</div>

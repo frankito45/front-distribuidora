@@ -1,0 +1,19 @@
+@if (mostrar) {
+
+    <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
+
+    <div class="relative w-full max-w-2xl rounded-xl bg-white shadow-2xl p-6">
+
+        <button
+            (click)="toggleCerrarModal()"
+            class="absolute top-4 right-4 flex h-8 w-8 items-center justify-center rounded-full text-gray-500 transition hover:bg-gray-100 hover:text-black">
+        ✕
+        </button>
+
+        <ng-content></ng-content>
+
+    </div>
+
+    </div>
+
+}
