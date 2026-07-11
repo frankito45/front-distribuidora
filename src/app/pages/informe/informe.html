@@ -42,13 +42,6 @@
 
             </button>
 
-            <button
-                (click)="hoy()"
-                class="bg-gray-200 px-5 py-2 rounded-lg hover:bg-gray-300">
-
-                Hoy
-
-            </button>
 
         </div>
 
@@ -255,6 +248,8 @@
                 <tr>
 
                     <th class="text-left p-4">Venta</th>
+                    
+                    <th class="text-left p-4">fecha</th>
 
                     <th class="text-left p-4">Cliente</th>
 
@@ -277,6 +272,11 @@
                         #{{ venta.id }}
 
                     </td>
+                    <td class="p-4">
+
+                        #{{ venta.fecha  | date:'medium':'America/Argentina/Buenos_Aires' }}
+
+                    </td>
 
                     <td class="p-4">
 
@@ -290,11 +290,26 @@
 
                     </td>
 
-                    <td class="p-4 font-semibold">
+<td class="p-4">
+  @for (pago of venta.pagos; track pago.ventaId) {
 
-                        {{ venta.total | currency:'ARS' }}
+    <span
+      class="mr-2 px-2 py-1 rounded text-xs"
+      [class.bg-green-100]="pago.metodo === 'EFECTIVO'"
+      [class.text-green-800]="pago.metodo === 'EFECTIVO'"
 
-                    </td>
+      [class.bg-blue-100]="pago.metodo === 'TRANSFERENCIA'"
+      [class.text-blue-800]="pago.metodo === 'TRANSFERENCIA'"
+
+      [class.bg-yellow-100]="pago.metodo === 'CUENTA_CORRIENTE'"
+      [class.text-yellow-800]="pago.metodo === 'CUENTA_CORRIENTE'">
+
+      {{ pago.metodo }} ({{ pago.monto }})
+
+    </span>
+
+  }
+</td>
 
                 </tr>
 

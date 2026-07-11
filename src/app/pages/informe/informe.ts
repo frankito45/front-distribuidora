@@ -7,7 +7,7 @@ import { LoaderComponent } from "../../components/loader-component/loader-compon
 
 @Component({
   selector: 'app-informe',
-  imports: [FormsModule, CurrencyPipe, LoaderComponent],
+  imports: [FormsModule, CurrencyPipe, LoaderComponent,DatePipe],
   templateUrl: './informe.html',
   styleUrl: './informe.css',
 })

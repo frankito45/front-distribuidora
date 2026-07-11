@@ -1,52 +1,70 @@
-<div class="min-h-screen bg-gray-100">
+<div
+  class="min-h-screen bg-cover bg-center bg-fixed"
+  style="background-image: url('/img/fondo.webp');">
 
   <!-- Navbar -->
-  <header class="h-16 bg-black text-white flex items-center px-6 shadow">
+  <header
+    class="sticky top-0 z-50 h-16
+           bg-black
+           backdrop-blur-xl
+           border-b border-white/20
+           text-white
+           flex items-center px-6 shadow-lg">
+
     <h1 class="text-xl font-bold">
       Gestión de Stock
     </h1>
+
   </header>
 
   <div class="flex">
 
     <!-- Sidebar -->
-    <aside class="w-64 bg-white shadow min-h-[calc(100vh-4rem)]">
+    <aside
+      class="sticky top-16
+             w-64
+             h-[calc(100vh-4rem)]
+             bg-white/10
+             backdrop-blur-xl
+             border-r border-white/20
+             shadow-2xl">
 
       <nav class="p-4 space-y-2">
 
         <a
           routerLink="/producto"
-          class="block px-4 py-3 rounded-lg hover:bg-gray-100">
-          Productos
+          class="block rounded-xl px-4 py-3 text-white hover:bg-white/20 transition">
+          📦 Productos
         </a>
 
         <a
           routerLink="/cliente"
-          class="block px-4 py-3 rounded-lg hover:bg-gray-100">
-          Clientes
+          class="block rounded-xl px-4 py-3 text-white hover:bg-white/20 transition">
+          👥 Clientes
         </a>
 
         <a
           routerLink="/venta"
-          class="block px-4 py-3 rounded-lg hover:bg-gray-100">
-          Ventas
+          class="block rounded-xl px-4 py-3 text-white hover:bg-white/20 transition">
+          💳 Ventas
         </a>
 
         <a
           routerLink="/categoria"
-          class="block px-4 py-3 rounded-lg hover:bg-gray-100">
-          Categorías
+          class="block rounded-xl px-4 py-3 text-white hover:bg-white/20 transition">
+          🏷️ Categorías
         </a>
 
         <a
           routerLink="/historial"
-          class="block px-4 py-3 rounded-lg hover:bg-gray-100">
-          Historial
+          class="block rounded-xl px-4 py-3 text-white hover:bg-white/20 transition">
+          📊 Historial
         </a>
+
         <a
           routerLink="/mas"
-          class="block px-4 py-3 rounded-lg hover:bg-gray-100">
-          Mas
+          class="block rounded-xl px-4 py-3 text-white hover:bg-white/20 transition">
+          ⚙️ Más
         </a>
 
       </nav>
@@ -56,7 +74,18 @@
     <!-- Contenido -->
     <main class="flex-1 p-6">
 
-      <router-outlet />
+      <div
+        class="min-h-[calc(100vh-7rem)]
+               rounded-3xl
+               bg-white/10
+               backdrop-blur-xl
+               border border-white/20
+               shadow-2xl
+               p-6">
+
+        <router-outlet />
+
+      </div>
 
     </main>
 

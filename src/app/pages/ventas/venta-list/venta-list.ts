@@ -2,7 +2,7 @@ import { ChangeDetectorRef, Component, inject } from '@angular/core';
 import { Venta } from '../../../core/services/venta';
 import { Observable } from 'rxjs';
 import { Venta as ModelVenta } from '../../../model/venta';
-import { AsyncPipe } from '@angular/common';
+import { AsyncPipe, DatePipe } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
 import { routes } from '../../../app.routes';
 import { LoaderComponent } from "../../../components/loader-component/loader-component";
@@ -10,7 +10,7 @@ import { Spiner } from "../../../shared/spiner/spiner";
 
 @Component({
   selector: 'app-venta-list',
-  imports: [AsyncPipe, Spiner],
+  imports: [AsyncPipe, Spiner,DatePipe],
   templateUrl: './venta-list.html',
   styleUrl: './venta-list.css',
 })

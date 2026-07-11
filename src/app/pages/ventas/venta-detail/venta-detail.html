@@ -1,4 +1,5 @@
- <div class="grid grid-cols-2 justify-items gap-2">
+
+<div class="grid grid-cols-2 justify-items gap-2">
 
 
 @if (loadig && venta) {
@@ -25,11 +26,13 @@
       </h1>
       
       <span class="">
-        <button
+        @if(venta.estado === "PENDIENTE"){
+          <button
         (click)="toggleAbrirOferta()" 
         class="font-bold bg-black text-white py-2 px-4 rounded-lg hover:bg-gray-800 transition">
           $
         </button>
+      }
       </span>
     </div>
 
@@ -58,14 +61,22 @@
   
     <!-- boton imprecion y pagos -->
       @if(venta.estado === "PAGADA"){
+        <div class="flex justify-end gap-3 mt-4">
+
+          <button
+          class="bg-gray-600 text-white px-4 py-2 rounded-lg hover:bg-gray-700 transition" 
+          (click)="imprimirTiket()">
+          imprimir ticket
+        </button>
+      </div>
+
+      }@else if(venta.estado === "PENDIENTE"){
+        <div class="flex justify-end gap-3 mt-4">
         <button
           class="bg-gray-600 text-white px-4 py-2 rounded-lg hover:bg-gray-700 transition" 
           (click)="imprimirTiket()">
           imprimir ticket
         </button>
-
-      }@else if(venta.estado === "PENDIENTE"){
-        <div class="flex justify-end gap-3 mt-4">
           <button 
             (click)="cancelar()"
             class="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition">

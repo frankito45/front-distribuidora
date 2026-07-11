@@ -15,10 +15,10 @@
     </button>
 
   </div>
-    <div class="h-75 overflow-y-auto px-3">
+    <div class="h-75 overflow-y-scroll px-3 py-3">
   
         @if (barrios$ | async; as barrios) { 
-        <table class="w-full border-collapse rounded-lg overflow-hidden shadow-sm">
+        <table class="w-full bg-white border-collapse rounded-lg overflow-hidden shadow-sm ">
 
             <thead class="bg-gray-100 text-gray-700">
             <tr class>
@@ -133,9 +133,9 @@
 
     </div>
 
-    <div class=" rounded-xl shadow overflow-hidden m-3">
+    <div class=" rounded-xl shadow  m-3">
         @if(clientes$ | async; as clientes$){ 
-            <table class="w-full border-collapse rounded-lg overflow-hidden shadow-sm">
+            <table class="w-full bg-white border-collapse rounded-lg overflow-hidden shadow-sm">
 
                 <thead class="bg-gray-100">
                     <tr>
