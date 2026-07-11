@@ -25,22 +25,31 @@
           <h2 class="text-2xl font-bold text-gray-800">Nueva Venta</h2>
           
           
-          <!-- <label class="block text-sm font-semibold text-gray-700">filtrar Por Barrio</label>
+          <label class="block text-sm font-semibold text-gray-700">
+            Filtrar por barrio
+          </label>
+
           <select
-           class="w-full border rounded-lg p-3 " 
-           [(ngModel)]="barrio"
-           (change)="filtrarClientes()" >
-              <option class="bg-white text-gray-800" [value]="">Todos</option>
-              @for (barrio of barrios; track $barrio.id) {
-                <option class="bg-white text-gray-800" [value]="cliente.barrio">{{cliente.barrio}}</option>
+            (change)="filtrarClientes($event)"
+            class="w-full border rounded-lg p-3">
+
+            <option value="">Todos</option>
+
+            @if (barrios$ | async; as barrios) {
+              @for (barrio of barrios; track barrio.id) {
+                <option [value]="barrio.id">
+                  {{ barrio.nombre }}
+                </option>
               }
-          </select> -->
-          <label class="block text-sm font-semibold text-gray-700">Seleccione cliente</label>
+            }
+          </select>
           
-          <select formControlName="clienteId" class="w-full border rounded-lg p-3 ">
+          <select formControlName="clienteId" class="w-full border rounded-lg p-3">
             @if (clientes$ | async; as clientes) {
-              @for (cliente of clientes; track $index) {
-                <option class="bg-white text-gray-800" [value]="cliente.id">{{cliente.nombre}}</option>
+              @for (cliente of clientes; track cliente.id) {
+                <option [value]="cliente.id">
+                  {{ cliente.nombre }}
+                </option>
               }
             }
           </select>

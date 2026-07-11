@@ -8,11 +8,12 @@ import { Observable } from 'rxjs';
 import { RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { Categoria } from '../../../core/services/categoria';
+import { Spiner } from "../../../shared/spiner/spiner";
 
 @Component({
   selector: 'app-producto-list',
   standalone: true,
-  imports: [AsyncPipe,RouterLink,FormsModule],
+  imports: [AsyncPipe, RouterLink, FormsModule, Spiner],
   templateUrl: './producto-list.html',
   styleUrl: './producto-list.css',
 })
@@ -51,6 +52,7 @@ import { Categoria } from '../../../core/services/categoria';
     this.actualizarProducto = {
       nombre: data.nombre,
       categoriaId:data.categoriaId,
+      stock:data.stock,
       precioCompra:data.precioCompra,
       precioVenta:data.precioVenta,
       descripcion:data.descripcion

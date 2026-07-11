@@ -50,15 +50,25 @@
   </div>
 
   <!-- Barrio -->
-  <!-- <div class="space-y-1">
-    <label class="text-sm font-medium">Barrio</label>
-    <input
-      type="text"
-      formControlName="barrio"
-      class="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-black"
-      placeholder="Barrio"
-    >
-  </div> -->
+<div class="space-y-1">
+  <label class="text-sm font-medium">Barrio</label>
+
+  <select
+    formControlName="barrioId"
+    class="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-black">
+
+    <option [value]="0">Seleccione un barrio</option>
+
+    @if (barrios$ | async; as barrios) {
+      @for (barrio of barrios; track barrio.id) {
+        <option [value]="barrio.id">
+          {{ barrio.nombre }}
+        </option>
+      }
+    }
+
+  </select>
+</div>
 
   <!-- Botón -->
   <button

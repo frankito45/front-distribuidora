@@ -4,4 +4,5 @@ export interface CrearClienteDto {
   documento?: string;
   telefono?: string;
   direccion?: string;
+  barrioId?:number
 }

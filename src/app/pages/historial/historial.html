@@ -1,27 +1,20 @@
-<div class="p-6">
-  
-
   <div class="flex justify-between items-center mb-6">
     <h1 class="text-3xl font-bold">
-      Ventas
+      Historial
     </h1>
-
-    <button 
-      (click)="irCrearVenta()"
-      class="bg-black text-white px-4 py-2 rounded-lg">
-      Nueva Venta
-    </button>
   </div>
 
-  @if (ventas$ | async; as ventas) {
-    
+@if (ventas$ | async; as ventas) {
+
     <div class="bg-white rounded-xl shadow overflow-hidden p-3 h-170">
+ 
       <table class="w-full border-collapse rounded-lg overflow-hidden shadow-sm ">
 
         <thead class="bg-gray-100 text-gray-700">
 
           <tr>
             <th class="p-4 text-left">Cliente</th>
+            <th class="p-4 text-left">Fecha</th>
             <th class="p-4 text-left">Total</th>
             <th class="p-4 text-left">Estado</th>
             <th class="p-4 text-left">cliente</th>
@@ -36,6 +29,9 @@
 
             <tr class="border-t hover:bg-cyan-50 transition" (click)="abrirDetalles(venta.id)">
 
+              <td class="p-4">
+                {{ venta.fecha | date:'medium':'America/Argentina/Buenos_Aires'  }}
+              </td>
               <td class="p-4">
                 {{ venta.cliente?.nombre }}
               </td>
@@ -62,7 +58,7 @@
               </td>
 
               <td class="p-4 ">
-                {{venta.cliente?.barrio}}
+                {{venta.cliente?.barrio?.nombre}}
               </td>
 
             </tr>
@@ -72,13 +68,18 @@
         </tbody>
 
       </table>
+        <div class="flex">
+
+          <button
+          (click)="toggleAnterior()"
+           [disabled]="skip === 0" 
+          class=""> Anterior</button>
+          <button
+          (click)="toggleSiguiente()" 
+          class="">
+             siguiente
+          </button>
+        </div>
+
     </div>
-
-  }@else{
-    <div class="bg-white rounded-xl shadow overflow-hidden p-3 h-170 content-center">
-
-      <app-spiner></app-spiner>
-    </div>
-  }
-
-</div>
+}

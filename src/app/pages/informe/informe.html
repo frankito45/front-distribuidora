@@ -1,3 +1,6 @@
+
+
+
 <div class="p-6 space-y-6">
 
     <!-- Encabezado -->
@@ -54,7 +57,8 @@
     @if(informe){
 
     <!-- Resumen -->
-
+        
+    <app-loader-component [loading]="formeLoad">
     <div class="grid grid-cols-4 gap-5">
 
         <div class="bg-white rounded-xl shadow p-5">
@@ -301,6 +305,9 @@
         </table>
 
     </div>
+    </app-loader-component>
 
     }
+
 </div>
+

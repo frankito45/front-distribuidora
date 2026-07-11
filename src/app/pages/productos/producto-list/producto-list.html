@@ -1,7 +1,11 @@
 
 <div class="p-6">
+  
+<div class="bg-white rounded-xl shadow-lg overflow h-174">
+  
+  <div class=" flex justify-between items-center p-6">
 
-  <div class=" flex justify-between items-center mb-6">
+
     <h1 class="text-3xl font-bold">
       Productos
     </h1>
@@ -47,7 +51,9 @@
         </div>
 
         <!-- Tabla de productos -->
-        <div class="bg-white rounded-xl shadow overflow-hidden border">
+
+        <div class="bg-white rounded-xl shadow-lg overflow h-174">
+
           @if (productosBuscado$ | async; as listaProducto) {
             <table class="w-full border-collapse ">
               <thead class="bg-gray-200">
@@ -81,10 +87,8 @@
 
   }
 
-
-  
-<div class="bg-white rounded-xl shadow overflow-hidden">
   @if (productos$ | async; as productos) {
+    <div class="bg-white rounded-xl shadow overflow-hidden h-170">
     <table class="w-full">
 
       <thead class="bg-gray-100">
@@ -153,10 +157,19 @@
       </tbody>
 
     </table>
+  
+    
+  
 
-
-  }
   </div>
+  }
+  
+  @else {
+    <div class="bg-white rounded-xl shadow overflow-hidden p-3 h-170 content-center">
+      <app-spiner></app-spiner>
+    </div>
+  }
+
   
     <!-- Modal -->
    @if(actualizarProducto){
@@ -177,6 +190,10 @@
                 }
             }
           </select>
+
+          <label class="block mb-2"> Stock </label>
+          <input [(ngModel)]="actualizarProducto.stock" name="stock" type="number"
+                 class="border rounded w-full p-2 mb-4"/>
 
           <label class="block mb-2">Precio Compra</label>
           <input [(ngModel)]="actualizarProducto.precioCompra" name="precioCompra" type="number"
@@ -238,4 +255,3 @@
 
 
 
-</div>

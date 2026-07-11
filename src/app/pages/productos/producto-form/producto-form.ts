@@ -4,10 +4,11 @@ import { CrearProductoDto } from '../../../model/dto/crear-producto.dto';
 import { Categoria } from '../../../core/services/categoria';
 import { AsyncPipe } from '@angular/common';
 import { Producto } from '../../../core/services/producto';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-producto-form',
-  imports: [ReactiveFormsModule,AsyncPipe],
+  imports: [ReactiveFormsModule,AsyncPipe,RouterLink],
   standalone: true,
   templateUrl:'./producto-form.html',
   styleUrl: './producto-form.css',

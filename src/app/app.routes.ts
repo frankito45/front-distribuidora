@@ -9,6 +9,7 @@ import { VentaList } from './pages/ventas/venta-list/venta-list';
 import { VentaForm } from './pages/ventas/venta-form/venta-form';
 import { VentaDetail } from './pages/ventas/venta-detail/venta-detail';
 import { Informe } from './pages/informe/informe';
+import { Historial } from './pages/historial/historial';
 
 export const routes: Routes = [
     {
@@ -46,6 +47,10 @@ export const routes: Routes = [
     {
     path: 'ventas/:id',
     component: VentaDetail
+    },
+    {
+    path: 'historial',
+    component: Historial
     },
     {
         path: 'mas',

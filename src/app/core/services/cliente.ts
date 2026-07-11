@@ -9,6 +9,7 @@ import { CrearClienteDto } from '../../model/dto/crear-cliente.dto';
 export class Cliente {
 
   private http = inject(HttpClient)
+//  private api = 'http://localhost:3000/clientes';
  private api = 'https://distribuidorabackapiproto-production.up.railway.app/clientes';
 
   
@@ -32,8 +33,8 @@ export class Cliente {
     return this.http.delete(`${this.api}/${id}`)
   }
 
-  getFilterBarrio(barrio:{}){
-    return this.http.get<ModelCliente[]>(`${this.api}/clientes/filtrar`,barrio)
+  getFilterBarrio(barrioId:number){
+    return this.http.get<ModelCliente[]>(`${this.api}/filtrar?barrioId=${barrioId}`)
   }
 
 }

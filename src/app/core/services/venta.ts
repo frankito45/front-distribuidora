@@ -16,7 +16,7 @@ export class Venta {
   private api = 'https://distribuidorabackapiproto-production.up.railway.app/venta';
   // private api = 'http://localhost:3000/venta';
 
-getAll(params = { skip: 0, take: 10 }) {
+getAll(params:{ skip: number, take: number }) {
   return this.http.get<ModelVenta[]>(`${this.api}?skip=${params.skip}&take=${params.take}`);
 }
 

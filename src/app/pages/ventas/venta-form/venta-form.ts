@@ -14,6 +14,8 @@ import { TicketService } from '../../../core/services/imprimir-ticket';
 import { LoaderComponent } from "../../../components/loader-component/loader-component";
 import { VentaDetail } from "../venta-detail/venta-detail";
 import { Content } from '../../../components/content/content';
+import { Barrio } from '../../../model/barrio';
+import { Barrios } from '../../../core/services/barrios';
 
 
 @Component({
@@ -26,6 +28,7 @@ import { Content } from '../../../components/content/content';
 
 export class VentaForm {
   private serviceVenta = inject(Venta)
+  private serviceBarrios = inject(Barrios)
   private serviceProducto = inject(Producto)
   private serviceClientes =inject(Cliente)
   private cdr = inject(ChangeDetectorRef);
@@ -68,13 +71,20 @@ formModle = new FormGroup(
   }
 
 )
+
+  barrios$:Observable<Barrio[] | null > = this.serviceBarrios.getBarrio()
   barrio:string = ''
 
-  filtrarClientes(barrio:string){
-    if (this.barrio !== '') {
-      this.clientes$ = this.serviceClientes.getFilterBarrio(this.barrio)
-    }
+filtrarClientes(event: Event) {
+  const barrioId = Number((event.target as HTMLSelectElement).value);
+
+  if (!barrioId) {
+    this.clientes$ = this.serviceClientes.getAll();
+    return;
   }
+
+  this.clientes$ = this.serviceClientes.getFilterBarrio(barrioId);
+}
 
   
 

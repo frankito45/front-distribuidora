@@ -5,10 +5,12 @@ import { Venta as ModelVenta } from '../../../model/venta';
 import { AsyncPipe } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
 import { routes } from '../../../app.routes';
+import { LoaderComponent } from "../../../components/loader-component/loader-component";
+import { Spiner } from "../../../shared/spiner/spiner";
 
 @Component({
   selector: 'app-venta-list',
-  imports: [AsyncPipe],
+  imports: [AsyncPipe, Spiner],
   templateUrl: './venta-list.html',
   styleUrl: './venta-list.css',
 })
@@ -17,7 +19,9 @@ export class VentaList {
  private cdr = inject(ChangeDetectorRef);
  private router = inject(Router);
  ventas$:Observable<ModelVenta[]> = this.ventaServices.getPendiente() 
-  datocoutn: number = 0
+
+
+datocoutn: number = 0
  recargarVentas(){
   this.ventas$ = this.ventaServices.getPendiente()
  }

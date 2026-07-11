@@ -1,13 +1,17 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { Venta } from '../../model/venta';
+import { Cliente } from './cliente';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TicketService {
 
-  imprimir(venta: Venta): void {
 
+  imprimir(venta: Venta): void {
+    console.log(venta.cliente?.barrio?.nombre)
+    console.log(venta.cliente?.barrio?.id)
+    console.log(venta.cliente?.barrioId)
     const iframe = document.createElement('iframe');
 
     iframe.style.position = 'fixed';
@@ -100,7 +104,7 @@ hr{
     body.appendChild(cliente)
 
     const clienteBarri = doc.createElement('p')
-    clienteBarri.textContent = `Barrrio: ${venta.cliente?.barrio}`
+    clienteBarri.textContent = `Barrrio: ${venta.cliente?.barrio?.nombre}`
     body.appendChild(clienteBarri)
 
     const clienteDireccion = doc.createElement('p')
