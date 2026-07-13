@@ -20,24 +20,20 @@ export class Auth {
       );
   }
 
-
   logout(){
     localStorage.removeItem('token');
     localStorage.removeItem('usuario');
   }
-  
-
 
   getToken(){
     return localStorage.getItem('token');
   }
 
-
   estaLogueado(){
     return !!this.getToken();
   }
 
-    getUsuario() {
+  getUsuario() {
     const usuario = localStorage.getItem('usuario');
     return usuario ? JSON.parse(usuario) : null;
   }
@@ -47,8 +43,6 @@ export class Auth {
   }
 
   esAdmin() {
-    return this.getRol() === 'ADMIN';
+    return this.getUsuario()?.rol === 'ADMIN';
   }
-
-
-} 
+}
