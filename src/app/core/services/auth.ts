@@ -8,7 +8,7 @@ import { Observable, tap } from 'rxjs';
 export class Auth {
   private http = inject(HttpClient);
 
-  private api = 'http://localhost:3000/auth';
+  private api = 'https://distribuidorabackapiproto-production.up.railway.app/auth';
 
   login(data:any): Observable<any>{
     return this.http.post<any>(`${this.api}/login`, data)
@@ -50,5 +50,5 @@ export class Auth {
     return this.getRol() === 'ADMIN';
   }
 
-  
+
 } 
