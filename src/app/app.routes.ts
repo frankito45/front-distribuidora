@@ -10,50 +10,81 @@ import { VentaForm } from './pages/ventas/venta-form/venta-form';
 import { VentaDetail } from './pages/ventas/venta-detail/venta-detail';
 import { Informe } from './pages/informe/informe';
 import { Historial } from './pages/historial/historial';
+import { Login } from './pages/login/login';
+import { authGuard } from './core/guards/auth.guard';
 
 export const routes: Routes = [
-    {
-        path: 'producto',
-        component:ProductoList
-    },
-    {
-        path: 'productos/nuevo',
-        component: ProductoForm
-    },
-    {
-        path: 'categoria',
-        component: CategoriaList
-    },
-    {
-        path: 'categoria/nuevo',
-        component: CategoriaForm
-    },
-    {
-        path: 'cliente/nuevo',
-        component: ClienteForm
-    },
-    {
-        path: 'cliente',
-        component: ClienteList
-    },
-    {
-        path: 'venta',
-        component: VentaList
-    },
-    {
-        path: 'ventas/nuevo',
-        component: VentaForm
-    },  
-    {
+
+  {
+    path: '',
+    redirectTo: 'login',
+    pathMatch: 'full'
+  },
+
+  {
+    path: 'login',
+    component: Login
+  },
+
+  {
+    path: 'producto',
+    component: ProductoList,
+    canActivate: [authGuard]
+  },
+  {
+    path: 'productos/nuevo',
+    component: ProductoForm,
+    canActivate: [authGuard]
+  },
+  {
+    path: 'categoria',
+    component: CategoriaList,
+    canActivate: [authGuard]
+  },
+  {
+    path: 'categoria/nuevo',
+    component: CategoriaForm,
+    canActivate: [authGuard]
+  },
+  {
+    path: 'cliente',
+    component: ClienteList,
+    canActivate: [authGuard]
+  },
+  {
+    path: 'cliente/nuevo',
+    component: ClienteForm,
+    canActivate: [authGuard]
+  },
+  {
+    path: 'venta',
+    component: VentaList,
+    canActivate: [authGuard]
+  },
+  {
+    path: 'ventas/nuevo',
+    component: VentaForm,
+    canActivate: [authGuard]
+  },
+  {
     path: 'ventas/:id',
-    component: VentaDetail
-    },
-    {
+    component: VentaDetail,
+    canActivate: [authGuard]
+  },
+  {
     path: 'historial',
-    component: Historial
-    },
-    {
-        path: 'mas',
-        component: Informe
-    }
+    component: Historial,
+    canActivate: [authGuard]
+  },
+  {
+    path: 'mas',
+    component: Informe,
+    canActivate: [authGuard]
+  },
+
+  {
+    path: '**',
+    redirectTo: 'login'
+  }
+
 ];

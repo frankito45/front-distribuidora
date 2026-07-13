@@ -23,15 +23,16 @@
     </div>
   </div>
 
-<div class="bg-white rounded-xl shadow-lg overflow h-174 p-3">
+<div class="bg-white rounded-xl shadow h-[700px] overflow-y-auto p-3">
   
 
   @if (productos$ | async; as productos) {
-    <div class="bg-white rounded-xl shadow overflow-hidden">
-    <table class="w-full">
+    <div class="bg-white rounded-xl shadow  ">
+    <table class="w-full ">
 
       <thead class="bg-gray-100">
         <tr>
+          <th class="text-left p-4">Actualizacion</th>
           <th class="text-left p-4">Categoria</th>
           <th class="text-left p-4">Nombre</th>
           <th class="text-left p-4">Stock</th>
@@ -47,6 +48,9 @@
         @for (producto of productos; track producto.id ) {
           <tr class="border-t">
 
+            <td class="p-4">
+              {{ producto.updatedAt  | date:'medium':'America/Argentina/Buenos_Aires' }}
+            </td>
             <td class="p-4">
               {{ producto.categoria.nombre }}
             </td>
@@ -73,18 +77,23 @@
             </td>
 
             <td class="p-4 flex gap-2">
+              @if (auth.esAdmin()) {
 
-              <button 
-                (click)="toggleUpdate(producto)"
-                class="bg-yellow-500 text-white px-3 py-1 rounded">
-                Editar
-              </button>
-
-              <button
+                
+                <button
                 (click)="toggleEliminar(producto)"
                 class="bg-red-600 text-white px-3 py-1 rounded">
                 Eliminar
               </button>
+            }
+            @else{
+              <button 
+              (click)="toggleUpdate(producto)"
+              class="bg-yellow-500 text-white px-3 py-1 rounded">
+              Editar
+            </button>
+              <p>Sin acceso</p>
+            }
               
 
             </td>
@@ -184,6 +193,7 @@
         </button>
         <button 
           class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition"
+          [disabled]="agregarStocktoggle"
           (click)="confirmarAgregarStock()">
           Confirmar
         </button>
@@ -245,13 +255,6 @@
         </div>
       </div>
     </div>
-    <!-- modal -->
-    @if (mostralmodal) {
-      <div>
-        <h3>
-          agregar stock
-        </h3>
-      </div>
-    }
+    
 
   }

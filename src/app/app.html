@@ -9,12 +9,22 @@
            backdrop-blur-xl
            border-b border-white/20
            text-white
-           flex items-center px-6 shadow-lg">
+           flex items-center justify-between px-6 shadow-lg">
 
-    <h1 class="text-xl font-bold">
-      Gestión de Stock
-    </h1>
-
+    
+      <h1 class="text-xl font-bold">
+        Gestión de Stock
+      </h1>
+  <div class=" justify-baseline px-6 ">
+    
+    <button class="cursor-pointer p-2 rounded-xl bg-white/10 backdrop-blur-2xl border border-white/10 mx-2.5">
+      login
+    </button>
+    <button class="cursor-pointer p-2 rounded-xl bg-white/10 backdrop-blur-2xl border border-white/10 mx-2.5 ">
+      logout
+    </button>
+    
+  </div>
   </header>
 
   <div class="flex">
@@ -60,12 +70,13 @@
           class="block rounded-xl px-4 py-3 text-white hover:bg-white/20 transition">
           📊 Historial
         </a>
-
-        <a
+        @if(usuario.rol ===  'ADMIN'){
+          <a
           routerLink="/mas"
           class="block rounded-xl px-4 py-3 text-white hover:bg-white/20 transition">
           ⚙️ Más
         </a>
+      }
 
       </nav>
 

@@ -9,4 +9,5 @@ import { RouterLink, RouterOutlet } from '@angular/router';
 })
 export class App {
   protected readonly title = signal('Control de Stock');
+  usuario = JSON.parse(localStorage.getItem('usuario')!);
 }

@@ -1,6 +1,6 @@
 import { ChangeDetectorRef, Component, inject } from '@angular/core';
 import { Venta } from '../../../core/services/venta';
-import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Producto } from '../../../core/services/producto';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { Cliente as modelCliente} from '../../../model/cliente';
@@ -9,13 +9,14 @@ import { Producto as ModelProducto } from '../../../model/productos';
 import { Cliente } from '../../../core/services/cliente';
 import { AsyncPipe } from '@angular/common';
 import { CrearVentaDto } from '../../../model/dto/crear-ventas.dto';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { TicketService } from '../../../core/services/imprimir-ticket';
 import { LoaderComponent } from "../../../components/loader-component/loader-component";
 import { VentaDetail } from "../venta-detail/venta-detail";
 import { Content } from '../../../components/content/content';
 import { Barrio } from '../../../model/barrio';
 import { Barrios } from '../../../core/services/barrios';
+import { Auth } from '../../../core/services/auth';
 
 
 @Component({
@@ -33,6 +34,8 @@ export class VentaForm {
   private serviceClientes =inject(Cliente)
   private cdr = inject(ChangeDetectorRef);
   private serviceTicket = inject(TicketService)
+  private router = inject(Router)
+  private auth = inject(Auth)
 
 // Interno: subject que podés actualizar con .next()
   private _venta$ = new BehaviorSubject<modelVenta | null>(null);
@@ -66,7 +69,7 @@ export class VentaForm {
 formModle = new FormGroup(
   {
     clienteId: new FormControl<number |null>(null,{
-      nonNullable:true
+      validators:[Validators.required]
     })
   }
 
@@ -90,10 +93,10 @@ filtrarClientes(event: Event) {
 
   guardar(){
 
-    if(this.formModle.invalid){
-      this.formModle.markAllAsTouched();
-      return
-    }
+    if (this.formModle.invalid) {
+    this.formModle.markAllAsTouched();
+    return;
+  }
     this.cargarVentaFormulario = true
     const venta : CrearVentaDto = this.formModle.getRawValue();
     console.log(venta)
@@ -195,7 +198,15 @@ filtrarClientes(event: Event) {
     if (this.ventaId) {
       this.serviceVenta.getById(this.ventaId).subscribe({
         next: v => this._venta$.next(v),
-        complete: () => this.cdr.detectChanges()
+        complete: () => this.cdr.detectChanges(),
+        error: (err) =>{
+
+          if (err.status === 401) {
+            this.auth.logout();
+            this.router.navigate(['/login']);
+          }
+
+        }
       });
     }
   }

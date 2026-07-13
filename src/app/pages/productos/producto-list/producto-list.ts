@@ -3,17 +3,19 @@ import { Producto } from '../../../core/services/producto';
 import { Producto as modelProducto } from '../../../model/productos';
 import { Categorias as modelCategoria } from '../../../model/categoria';
 import { ActualizarProductoDto } from '../../../model/dto/actualizar-producto.dto';
-import { AsyncPipe, JsonPipe } from '@angular/common';
+import { AsyncPipe, DatePipe, JsonPipe } from '@angular/common';
 import { Observable } from 'rxjs';
 import { RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { Categoria } from '../../../core/services/categoria';
 import { Spiner } from "../../../shared/spiner/spiner";
+import { LocalizedString } from '@angular/compiler';
+import { Auth } from '../../../core/services/auth';
 
 @Component({
   selector: 'app-producto-list',
   standalone: true,
-  imports: [AsyncPipe, RouterLink, FormsModule, Spiner],
+  imports: [AsyncPipe, RouterLink, FormsModule, Spiner, DatePipe],
   templateUrl: './producto-list.html',
   styleUrl: './producto-list.css',
 })
@@ -21,6 +23,9 @@ import { Spiner } from "../../../shared/spiner/spiner";
   private productoServices = inject(Producto);
   private categoriaServices = inject(Categoria)
   private cdr = inject(ChangeDetectorRef);
+  auth = inject(Auth)
+  user = localStorage.getItem('user')
+
   productos$: Observable<modelProducto[]> = this.productoServices.getAll()
   actualizarProducto: ActualizarProductoDto | null = null
   productoIdActualizar: number | null = null
@@ -109,14 +114,23 @@ import { Spiner } from "../../../shared/spiner/spiner";
     this.productosBuscado$ = this.productoServices.buscar(this.busqueda)
   }
   
+
+  agregarStocktoggle = false
   confirmarAgregarStock(){
+    if (this.agregarStock) return
+    this.agregarStock = true
+  
     if (this.productoSeleccionado && this.cantidadStock > 0) {
       this.productoServices.increment(this.productoSeleccionado.id,{increment: this.cantidadStock}).subscribe({
         next:() => {
+          this.agregarStock = false
           this.recargarProduto()
           this.recargarProductosBuscado()
           this.cerrarModal()
           this.cdr.detectChanges()
+        },
+        complete:() => {
+          this.agregarStock = true
         }
       })
     }

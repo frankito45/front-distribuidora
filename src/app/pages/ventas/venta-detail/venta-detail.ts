@@ -6,10 +6,11 @@ import { Spiner } from "../../../shared/spiner/spiner";
 import { FormularioPagoComponet } from "../../../components/formulario-pago.componet/formulario-pago.componet";
 import { TicketService } from '../../../core/services/imprimir-ticket';
 import { AgregarProductos } from "../../../components/agregar-productos/agregar-productos";
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CurrencyPipe } from '@angular/common';
 import { Modal } from '../../../components/modal/modal';
 import { FormControl, FormGroup, ɵInternalFormsSharedModule, ReactiveFormsModule } from '@angular/forms';
+import { Auth } from '../../../core/services/auth';
 
 @Component({
   selector: 'app-venta-detail',
@@ -23,6 +24,8 @@ export class VentaDetail implements OnInit {
   private tiketService = inject(TicketService)
   private cdr = inject(ChangeDetectorRef);
   private route = inject(ActivatedRoute);
+  private router = inject(Router);
+  private auth = inject(Auth);
 
   @Input({ required: true })
   ventaId!: number;
@@ -57,10 +60,18 @@ export class VentaDetail implements OnInit {
       complete: () => {
         console.log('recarga recivida')
         this.cdr.detectChanges()
+      },
+      error: (err) =>{
+        
       }
     })
    
 
+  }
+
+  eliminarProducto(productoId:number){
+    this.ventaService.desagregarProducto(this.ventaId,productoId)
+    this.cargarVenta()
   }
 
   agregarProducto(producto:any) {

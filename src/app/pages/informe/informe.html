@@ -290,26 +290,26 @@
 
                     </td>
 
-<td class="p-4">
-  @for (pago of venta.pagos; track pago.ventaId) {
+                    <td class="p-4">
+                    @for (pago of venta.pagos; track pago.ventaId) {
 
-    <span
-      class="mr-2 px-2 py-1 rounded text-xs"
-      [class.bg-green-100]="pago.metodo === 'EFECTIVO'"
-      [class.text-green-800]="pago.metodo === 'EFECTIVO'"
+                        <span
+                        class="mr-2 px-2 py-1 rounded text-xs"
+                        [class.bg-green-100]="pago.metodo === 'EFECTIVO'"
+                        [class.text-green-800]="pago.metodo === 'EFECTIVO'"
 
-      [class.bg-blue-100]="pago.metodo === 'TRANSFERENCIA'"
-      [class.text-blue-800]="pago.metodo === 'TRANSFERENCIA'"
+                        [class.bg-blue-100]="pago.metodo === 'TRANSFERENCIA'"
+                        [class.text-blue-800]="pago.metodo === 'TRANSFERENCIA'"
 
-      [class.bg-yellow-100]="pago.metodo === 'CUENTA_CORRIENTE'"
-      [class.text-yellow-800]="pago.metodo === 'CUENTA_CORRIENTE'">
+                        [class.bg-yellow-100]="pago.metodo === 'CUENTA_CORRIENTE'"
+                        [class.text-yellow-800]="pago.metodo === 'CUENTA_CORRIENTE'">
 
-      {{ pago.metodo }} ({{ pago.monto }})
+                        {{ pago.metodo }} ({{ pago.monto }})
 
-    </span>
+                        </span>
 
-  }
-</td>
+                    }
+                    </td>
 
                 </tr>
 
@@ -320,6 +320,64 @@
         </table>
 
     </div>
+
+        <div class="bg-white rounded-xl shadow overflow-hidden">
+
+        <div class="border-b p-5">
+
+            <h2 class="text-xl font-semibold">
+
+                Prodcutos Vendidos
+
+            </h2>
+
+        </div>
+
+        <table class="w-full">
+
+            <thead class="bg-gray-100">
+
+                <tr>
+
+                    <th class="text-left p-4">producto</th>
+                    
+                    <th class="text-left p-4">cantida</th>
+
+
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+                @for(item of informe.productosVendidos; track $index ){
+
+                <tr class="border-t hover:bg-gray-50">
+
+                    <td class="p-4">
+
+                        #{{ item.nombre }}
+
+                    </td>
+                    <td class="p-4">
+
+                        #{{ item.cantidad}}
+
+                    </td>
+
+
+
+                </tr>
+
+                }
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+
     </app-loader-component>
 
     }

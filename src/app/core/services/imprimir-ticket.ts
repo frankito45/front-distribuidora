@@ -77,7 +77,7 @@ hr{
 .total{
     font-size:18px;
     font-weight:bold;
-    text-align:right;
+    text-align:center;
 }
     `;
 

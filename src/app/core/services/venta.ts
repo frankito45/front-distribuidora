@@ -13,8 +13,8 @@ import { AgregarProductoVentaDto } from '../../model/dto/agregar-producto-venta.
 export class Venta {
 
   private http = inject(HttpClient);
-  private api = 'https://distribuidorabackapiproto-production.up.railway.app/venta';
-  // private api = 'http://localhost:3000/venta';
+  // private api = 'https://distribuidorabackapiproto-production.up.railway.app/venta';
+  private api = 'http://localhost:3000/venta';
 
 getAll(params:{ skip: number, take: number }) {
   return this.http.get<ModelVenta[]>(`${this.api}?skip=${params.skip}&take=${params.take}`);

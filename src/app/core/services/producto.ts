@@ -13,7 +13,8 @@ export class Producto {
 
 
   private http = inject(HttpClient)
-  private api = 'https://distribuidorabackapiproto-production.up.railway.app/productos';
+  private api = "http://localhost:3000/productos"
+  // private api = 'https://distribuidorabackapiproto-production.up.railway.app/productos';
 
   getAll() {
     return this.http.get<modelProducto[]>(this.api);
